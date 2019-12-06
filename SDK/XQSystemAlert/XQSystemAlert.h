@@ -61,6 +61,20 @@ typedef void(^XQSystemAlertActionBlock)(UIAlertController * _Nonnull alert);
  底部弹框, 手动完美适配iPad
 
  @param sourceView 弹出在那个view上面
+ */
++ (UIAlertController *_Nullable)actionSheetWithTitle:(NSString *_Nullable)title
+                                             message:(NSString *_Nullable)message
+                                          contentArr:(NSArray *_Nullable)contentArr
+                                          cancelText:(NSString *_Nullable)cancelText
+                                                  vc:(UIViewController *_Nullable)vc
+                                          sourceView:(UIView *_Nullable)sourceView
+                                     contentCallback:(XQSystemAlertBlock _Nullable)contentCallback
+                                      cancelCallback:(XQSystemAlertCancelBlock _Nullable)cancelCallback;
+
+/**
+ 底部弹框, 手动完美适配iPad
+
+ @param sourceView 弹出在那个view上面
  @param sourceRect 弹出的尖点位置, 锚点
  */
 + (UIAlertController *_Nullable)actionSheetWithTitle:(NSString *_Nullable)title
@@ -72,6 +86,8 @@ typedef void(^XQSystemAlertActionBlock)(UIAlertController * _Nonnull alert);
                                           sourceRect:(CGRect)sourceRect
                                      contentCallback:(XQSystemAlertBlock _Nullable)contentCallback
                                       cancelCallback:(XQSystemAlertCancelBlock _Nullable)cancelCallback;
+
+
 
 
 

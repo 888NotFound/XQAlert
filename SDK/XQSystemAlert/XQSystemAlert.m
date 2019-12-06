@@ -51,6 +51,22 @@
 
 #pragma mark -- 具体适配iPad
 
+/**
+ 底部弹框, 手动完美适配iPad
+
+ @param sourceView 弹出在那个view上面
+ */
++ (UIAlertController *_Nullable)actionSheetWithTitle:(NSString *_Nullable)title
+                                             message:(NSString *_Nullable)message
+                                          contentArr:(NSArray *_Nullable)contentArr
+                                          cancelText:(NSString *_Nullable)cancelText
+                                                  vc:(UIViewController *_Nullable)vc
+                                          sourceView:(UIView *_Nullable)sourceView
+                                     contentCallback:(XQSystemAlertBlock _Nullable)contentCallback
+                                      cancelCallback:(XQSystemAlertCancelBlock _Nullable)cancelCallback {
+    return [self alertWithStyle:UIAlertControllerStyleActionSheet title:title message:message contentArr:contentArr cancelText:cancelText vc:vc sourceView:sourceView sourceRect:sourceView.bounds textFieldCount:0 textFieldBlock:nil contentCallback:contentCallback cancelCallback:cancelCallback];
+}
+
 + (UIAlertController *)actionSheetWithTitle:(NSString *)title
                      message:(NSString *)message
                   contentArr:(NSArray *)contentArr
@@ -98,14 +114,12 @@
         if (sourceView) {
             alert.popoverPresentationController.sourceView = sourceView;
         }else {
-            
-            UIView *keyWindow = [UIApplication sharedApplication].keyWindow;
+            UIView *keyWindow = [self getWindow];
             alert.popoverPresentationController.sourceView = keyWindow;
         }
         
         //CGRect rect = CGRectMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height, 0, 0);
         alert.popoverPresentationController.sourceRect = sourceRect;
-        
     }
     
     __weak typeof(alert) weakSelf = alert;
@@ -160,6 +174,26 @@
     }
     
     return alert;
+}
+
+/// 获取window
++ (UIWindow *)getWindow {
+    if (@available(iOS 13.0, *)) {
+        if ([[UIApplication sharedApplication].connectedScenes.allObjects.firstObject isKindOfClass:[UIWindowScene class]]) {
+            
+            UIWindowScene *ws = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.allObjects.firstObject;
+            if (ws.windows.firstObject) {
+                return ws.windows.firstObject;
+            }
+            
+            return [UIApplication sharedApplication].keyWindow;
+            
+        }else {
+            return [UIApplication sharedApplication].keyWindow;
+        }
+    }
+    
+    return [UIApplication sharedApplication].keyWindow;
 }
 
 #pragma mark -- 额外的一些方法
