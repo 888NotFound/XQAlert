@@ -16,7 +16,7 @@ fileprivate var xq_alertView_ :XQAlertView?
 public class XQAlertView: UIView, UITextViewDelegate {
     
     
-    /// 显示弹框
+    /// 显示两个按钮弹框
     /// - Parameters:
     ///   - title: 标题
     ///   - message: 副标题
@@ -33,6 +33,24 @@ public class XQAlertView: UIView, UITextViewDelegate {
         self.createAlertView()
         
         xq_alertView_?.show(title, message: message, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, callback: callback, cancelCallback: cancelCallback)
+    }
+    
+    /// 显示单个按钮弹框
+    /// - Parameters:
+    ///   - title: 标题
+    ///   - message: 副标题
+    ///   - btnTitle: 按钮标题
+    ///   - callback: 点击右边按钮回调
+    ///   - cancelCallback: 点击左边按钮回调
+    @objc public static func show(_ title: String, message: String = "", btnTitle: String = "", callback: XQAlertViewCallback? = nil) {
+        if let _ = xq_alertView_ {
+            print("已存在 alertView")
+            return
+        }
+        
+        self.createAlertView()
+        
+        xq_alertView_?.show(title, message: message, btnTitle: btnTitle, callback: callback)
     }
     
     /// 显示弹框, 富文本连接
@@ -347,6 +365,28 @@ public class XQAlertView: UIView, UITextViewDelegate {
         
         self.callback = callback
         self.cancelCallback = cancelCallback
+        
+        self.xq_show()
+    }
+    
+    private func show(_ title: String, message: String = "", btnTitle: String = "", callback: XQAlertViewCallback? = nil) {
+        
+        self.titleLab.text = title
+        self.messageLab.text = message
+        
+        self.leftBtn.isHidden = true
+        self.rightBtn.setTitle(btnTitle, for: .normal)
+        self.rightBtn.mas_remakeConstraints({ (make) in
+            make?.top.equalTo()(self.messageView.mas_bottom)?.offset()(12)
+            make?.left.equalTo()(self.contentScrollView)
+            make?.width.equalTo()(self.contentScrollView)
+            make?.height.mas_equalTo()(44)
+            make?.bottom.equalTo()(self.contentScrollView)?.priority()(.required)
+        })
+        
+        
+        self.callback = callback
+        self.cancelCallback = nil
         
         self.xq_show()
     }
