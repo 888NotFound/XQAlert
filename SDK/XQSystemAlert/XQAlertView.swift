@@ -24,7 +24,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - rightBtnTitle: 右边按钮标题
     ///   - callback: 点击右边按钮回调
     ///   - cancelCallback: 点击左边按钮回调
-    @objc public static func show(_ title: String, message: String = "", leftBtnTitle: String = "", rightBtnTitle: String = "", callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    @objc public static func show(_ title: String, message: String = "", leftBtnTitle: String, rightBtnTitle: String, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
         if let _ = xq_alertView_ {
             print("已存在 alertView")
             return
@@ -42,7 +42,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - btnTitle: 按钮标题
     ///   - callback: 点击右边按钮回调
     ///   - cancelCallback: 点击左边按钮回调
-    @objc public static func show(_ title: String, message: String = "", btnTitle: String = "", callback: XQAlertViewCallback? = nil) {
+    @objc public static func show(_ title: String, message: String = "", btnTitle: String, callback: XQAlertViewCallback? = nil) {
         if let _ = xq_alertView_ {
             print("已存在 alertView")
             return
@@ -59,7 +59,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - messageLinks: 内容中要显示为可点击链接
     ///   - messageLinkTextAttributes: UITextView.linkTextAttributes 属性,  就是链接富文本的属性. 例如颜色这些
     ///   - textViewDelegate: UITextView 的 代理, 就是监听点击富文本 的
-    @objc public static func show(_ title: String, message: String, messageLinks: [String: String], messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String = "", rightBtnTitle: String = "", textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    @objc public static func show(_ title: String, message: String, messageLinks: [String: String], messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String, rightBtnTitle: String, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
         
         let attributedString = NSMutableAttributedString.init(string: message)
         
@@ -96,7 +96,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - message: 富文本内容
     ///   - messageLinkTextAttributes: UITextView.linkTextAttributes 属性,  就是链接富文本的属性. 例如颜色这些
     ///   - textViewDelegate: UITextView 的 代理, 就是监听点击富文本 的
-    @objc public static func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String = "", rightBtnTitle: String = "", textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    @objc public static func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String, rightBtnTitle: String, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
         self.createAlertView()
         xq_alertView_?.show(title, message: message, messageLinkTextAttributes: messageLinkTextAttributes, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, textViewDelegate: textViewDelegate, callback: callback, cancelCallback: cancelCallback)
     }
