@@ -13,7 +13,10 @@ Pod::Spec.new do |s|
     s.swift_version = '5.1'
     s.source_files = 'SDK/**/*.{h,m,swift}'
 #    s.resources = 'SDK/**/*.{xib}'
+
     s.dependency 'Masonry'
+    
+    s.resources = 'SDK/**/*.{xib}'
         
 end
 

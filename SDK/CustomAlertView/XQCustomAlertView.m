@@ -9,7 +9,7 @@
 #import "XQCustomAlertView.h"
 
 #import <Masonry/Masonry.h>
-#import "UIView+XQLine.h"
+//#import "UIView+XQLine.h"
 
 #import "XQCustomSheetAlertView.h"
 
@@ -98,6 +98,16 @@ static XQCustomAlertView *caView_ = nil;
         caView_.rightBtn.hidden = YES;
         
     }
+    
+    caView_.centerBtn.layer.borderWidth = 1;
+    caView_.centerBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
+    caView_.leftBtn.layer.borderWidth = 1;
+    caView_.leftBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
+    caView_.rightBtn.layer.borderWidth = 1;
+    caView_.rightBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
 }
 
 + (void)show {
@@ -216,9 +226,8 @@ static XQCustomAlertView *caView_ = nil;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [UIView setBorderWithView:self.centerBtn top:YES left:NO bottom:NO right:NO borderColor:[UIColor lightGrayColor] borderWidth:1];
-    [UIView setBorderWithView:self.rightBtn top:YES left:NO bottom:NO right:NO borderColor:[UIColor lightGrayColor] borderWidth:1];
-    [UIView setBorderWithView:self.leftBtn top:YES left:NO bottom:NO right:YES borderColor:[UIColor lightGrayColor] borderWidth:1];
+    
+//    [UIView setBorderWithView:self.leftBtn top:YES left:NO bottom:NO right:YES borderColor:[UIColor lightGrayColor] borderWidth:1];
 }
 
 - (void)show {

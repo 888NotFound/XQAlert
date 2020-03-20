@@ -12,7 +12,12 @@ typedef void(^XQCustomSheetAlertViewCallback)(NSInteger index);
 
 @interface XQCustomSheetAlertView : UIView
 
-+ (void)sheetWithTitle:(NSString *)title message:(NSString *)message dataArr:(NSArray <NSString *> *)dataArr cancelText:(NSString *)cancelText callback:(XQCustomSheetAlertViewCallback)callback cancelCallback:(XQCustomSheetAlertViewCallback)cancalCallback;
++ (void)sheetWithTitle:(NSString *)title
+               message:(NSString *)message
+               dataArr:(NSArray <NSString *> *)dataArr
+            cancelText:(NSString *)cancelText
+              callback:(XQCustomSheetAlertViewCallback)callback
+        cancelCallback:(XQCustomSheetAlertViewCallback)cancalCallback;
 
 + (void)setItemColorWithColor:(UIColor *)color rows:(NSArray <NSNumber *> *)rows;
 + (void)setItemColorWithColor:(UIColor *)color row:(NSInteger)row;

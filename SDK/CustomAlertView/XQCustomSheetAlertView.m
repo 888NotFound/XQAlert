@@ -13,8 +13,8 @@
 #import "XQCustomSheetAlertTopView.h"
 #import "XQCustomSheetAlertFooterView.h"
 
-#import "UIView+XQLine.h"
-#import "XQIOSDevice.h"
+//#import "UIView+XQLine.h"
+//#import "XQIOSDevice.h"
 
 
 
@@ -83,8 +83,10 @@ static CGFloat asCellHeight_ = 60;
     saView_.dataArr = dataArr;
     
     if (title.length != 0 || message.length != 0) {
-        saView_.headerView = [[XQCustomSheetAlertTopView alloc] initWithFrame:CGRectMake(0, 0, XQ_Screen_Width, 0)];
+        saView_.headerView = [[XQCustomSheetAlertTopView alloc] initWithFrame:CGRectMake(-1, -1, XQ_Screen_Width + 2, 0)];
         saView_.headerView.backgroundColor = [UIColor whiteColor];
+        saView_.headerView.layer.borderWidth = 1;
+        saView_.headerView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         saView_.headerView.titleLab.text = title;
         saView_.headerView.messageLab.text = message;
         CGFloat height = [saView_.headerView getViewHeight];
@@ -156,10 +158,6 @@ static CGFloat asCellHeight_ = 60;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if (self.headerView) {
-        [UIView setBorderWithView:self.headerView top:NO left:NO bottom:YES right:NO borderColor:[UIColor lightGrayColor] borderWidth:1];
-    }
-    
     // 0.0 因为是用约束...得等布局完毕, 再进行动画
     [self show];
 }
@@ -188,7 +186,8 @@ static CGFloat asCellHeight_ = 60;
 
 - (CGFloat)getAlertHeight {
     CGFloat height = asCellHeight_ * self.dataArr.count + self.headerView.frame.size.height;
-    CGFloat maxHeight = XQ_Screen_Height - [XQIOSDevice getNavigationHeight] - 20 - (self.cancelText.length == 0 ? 0 : [self getFooterHeight]);
+    CGFloat navigationBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height + 44;
+    CGFloat maxHeight = XQ_Screen_Height - navigationBarHeight - 20 - (self.cancelText.length == 0 ? 0 : [self getFooterHeight]);
     if (height > maxHeight) {
         height = maxHeight;
     }
