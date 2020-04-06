@@ -16,7 +16,9 @@ fileprivate var xq_alertView_ :XQAlertView?
 public class XQAlertView: UIView, UITextViewDelegate {
     
     
-    /// 显示两个按钮弹框
+    /// 显示弹框
+    /// 一定会显示一个按钮
+    /// 如果单个按钮, 回调是 callback, 相当于 cancelCallback 是无用的
     /// - Parameters:
     ///   - title: 标题
     ///   - message: 副标题
@@ -24,7 +26,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - rightBtnTitle: 右边按钮标题
     ///   - callback: 点击右边按钮回调
     ///   - cancelCallback: 点击左边按钮回调
-    @objc public static func show(_ title: String, message: String = "", leftBtnTitle: String, rightBtnTitle: String, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    @objc public static func show(_ title: String, message: String?, leftBtnTitle: String?, rightBtnTitle: String?, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
         if let _ = xq_alertView_ {
             print("已存在 alertView")
             return
@@ -32,7 +34,20 @@ public class XQAlertView: UIView, UITextViewDelegate {
         
         self.createAlertView()
         
-        xq_alertView_?.show(title, message: message, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, callback: callback, cancelCallback: cancelCallback)
+        if let leftBtnTitle = leftBtnTitle, let rightBtnTitle = rightBtnTitle {
+            // 两个都存在
+            xq_alertView_?.show(title, message: message, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, callback: callback, cancelCallback: cancelCallback)
+        }else if let leftBtnTitle = leftBtnTitle {
+            // 存在某个
+            xq_alertView_?.show(title, message: message, btnTitle: leftBtnTitle, callback: callback)
+        }else if let rightBtnTitle = rightBtnTitle {
+            // 存在某个
+            xq_alertView_?.show(title, message: message, btnTitle: rightBtnTitle, callback: callback)
+        }else {
+            // 都不存在
+            xq_alertView_?.show(title, message: message, btnTitle: "", callback: callback)
+        }
+        
     }
     
     /// 显示单个按钮弹框
@@ -42,7 +57,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - btnTitle: 按钮标题
     ///   - callback: 点击右边按钮回调
     ///   - cancelCallback: 点击左边按钮回调
-    @objc public static func show(_ title: String, message: String = "", btnTitle: String, callback: XQAlertViewCallback? = nil) {
+    @objc public static func show(_ title: String?, message: String?, btnTitle: String, callback: XQAlertViewCallback? = nil) {
         if let _ = xq_alertView_ {
             print("已存在 alertView")
             return
@@ -355,7 +370,8 @@ public class XQAlertView: UIView, UITextViewDelegate {
         
     }
     
-    private func show(_ title: String, message: String = "", leftBtnTitle: String = "", rightBtnTitle: String = "", callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    /// 显示两个按钮
+    private func show(_ title: String?, message: String?, leftBtnTitle: String = "", rightBtnTitle: String = "", callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
         
         self.titleLab.text = title
         self.messageLab.text = message
@@ -369,7 +385,8 @@ public class XQAlertView: UIView, UITextViewDelegate {
         self.xq_show()
     }
     
-    private func show(_ title: String, message: String = "", btnTitle: String = "", callback: XQAlertViewCallback? = nil) {
+    /// 显示单个按钮
+    private func show(_ title: String?, message: String?, btnTitle: String = "", callback: XQAlertViewCallback? = nil) {
         
         self.titleLab.text = title
         self.messageLab.text = message
