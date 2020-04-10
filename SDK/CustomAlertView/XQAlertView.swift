@@ -74,7 +74,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - messageLinks: 内容中要显示为可点击链接
     ///   - messageLinkTextAttributes: UITextView.linkTextAttributes 属性,  就是链接富文本的属性. 例如颜色这些
     ///   - textViewDelegate: UITextView 的 代理, 就是监听点击富文本 的
-    @objc public static func show(_ title: String, message: String, messageLinks: [String: String], messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String, rightBtnTitle: String, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    @objc public static func show(_ title: String, message: String, messageLinks: [String: String], messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String?, rightBtnTitle: String?, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
         
         let attributedString = NSMutableAttributedString.init(string: message)
         
@@ -111,7 +111,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - message: 富文本内容
     ///   - messageLinkTextAttributes: UITextView.linkTextAttributes 属性,  就是链接富文本的属性. 例如颜色这些
     ///   - textViewDelegate: UITextView 的 代理, 就是监听点击富文本 的
-    @objc public static func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String, rightBtnTitle: String, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    @objc public static func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String?, rightBtnTitle: String?, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
         self.createAlertView()
         xq_alertView_?.show(title, message: message, messageLinkTextAttributes: messageLinkTextAttributes, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, textViewDelegate: textViewDelegate, callback: callback, cancelCallback: cancelCallback)
     }
@@ -408,7 +408,8 @@ public class XQAlertView: UIView, UITextViewDelegate {
         self.xq_show()
     }
     
-    private func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:],  leftBtnTitle: String = "", rightBtnTitle: String = "", textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    /// 显示富文本弹框
+    private func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:],  leftBtnTitle: String?, rightBtnTitle: String?, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
         
         self.titleLab.text = title
         self.messageTV.attributedText = message
@@ -427,8 +428,33 @@ public class XQAlertView: UIView, UITextViewDelegate {
             make?.edges.equalTo()(self.messageView)
         }
         
-        self.leftBtn.setTitle(leftBtnTitle, for: .normal)
-        self.rightBtn.setTitle(rightBtnTitle, for: .normal)
+        if let leftBtnTitle = leftBtnTitle, let rightBtnTitle = rightBtnTitle {
+            
+            self.leftBtn.setTitle(leftBtnTitle, for: .normal)
+            self.rightBtn.setTitle(rightBtnTitle, for: .normal)
+            
+        }else if let btnTitle = leftBtnTitle {
+            self.leftBtn.isHidden = true
+            self.rightBtn.setTitle(btnTitle, for: .normal)
+            self.rightBtn.mas_remakeConstraints({ (make) in
+                make?.top.equalTo()(self.messageView.mas_bottom)?.offset()(12)
+                make?.left.equalTo()(self.contentScrollView)
+                make?.width.equalTo()(self.contentScrollView)
+                make?.height.mas_equalTo()(44)
+                make?.bottom.equalTo()(self.contentScrollView)?.priority()(.required)
+            })
+        }else if let btnTitle = rightBtnTitle {
+            self.leftBtn.isHidden = true
+            self.rightBtn.setTitle(btnTitle, for: .normal)
+            self.rightBtn.mas_remakeConstraints({ (make) in
+                make?.top.equalTo()(self.messageView.mas_bottom)?.offset()(12)
+                make?.left.equalTo()(self.contentScrollView)
+                make?.width.equalTo()(self.contentScrollView)
+                make?.height.mas_equalTo()(44)
+                make?.bottom.equalTo()(self.contentScrollView)?.priority()(.required)
+            })
+        }
+        
         
         self.callback = callback
         self.cancelCallback = cancelCallback
