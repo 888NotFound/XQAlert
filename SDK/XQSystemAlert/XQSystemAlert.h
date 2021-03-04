@@ -25,7 +25,7 @@ typedef void(^XQSystemAlertActionBlock)(UIAlertController * _Nonnull alert);
  */
 + (UIAlertController *_Nullable)alertWithTitle:(NSString *_Nullable)title
                                        message:(NSString *_Nullable)message
-                                    contentArr:(NSArray *_Nullable)contentArr
+                                    contentArr:(NSArray <NSString *> *_Nullable)contentArr
                                     cancelText:(NSString *_Nullable)cancelText
                                             vc:(UIViewController *_Nullable)vc
                                contentCallback:(XQSystemAlertBlock _Nullable)contentCallback
@@ -39,7 +39,7 @@ typedef void(^XQSystemAlertActionBlock)(UIAlertController * _Nonnull alert);
  */
 + (UIAlertController *_Nullable)alertWithTitle:(NSString *_Nullable)title
                                        message:(NSString *_Nullable)message
-                                    contentArr:(NSArray *_Nullable)contentArr
+                                    contentArr:(NSArray <NSString *> *_Nullable)contentArr
                                     cancelText:(NSString *_Nullable)cancelText
                                             vc:(UIViewController *_Nullable)vc
                                 textFieldCount:(NSUInteger)textFieldCount
@@ -50,7 +50,7 @@ typedef void(^XQSystemAlertActionBlock)(UIAlertController * _Nonnull alert);
 /** 底部弹框, iPad默认就从最底部的中间弹出来 */
 + (UIAlertController *_Nullable)actionSheetWithTitle:(NSString *_Nullable)title
                                              message:(NSString *_Nullable)message
-                                          contentArr:(NSArray *_Nullable)contentArr
+                                          contentArr:(NSArray <NSString *> *_Nullable)contentArr
                                           cancelText:(NSString *_Nullable)cancelText
                                                   vc:(UIViewController *_Nullable)vc
                                      contentCallback:(XQSystemAlertBlock _Nullable)contentCallback
@@ -64,7 +64,7 @@ typedef void(^XQSystemAlertActionBlock)(UIAlertController * _Nonnull alert);
  */
 + (UIAlertController *_Nullable)actionSheetWithTitle:(NSString *_Nullable)title
                                              message:(NSString *_Nullable)message
-                                          contentArr:(NSArray *_Nullable)contentArr
+                                          contentArr:(NSArray <NSString *> *_Nullable)contentArr
                                           cancelText:(NSString *_Nullable)cancelText
                                                   vc:(UIViewController *_Nullable)vc
                                           sourceView:(UIView *_Nullable)sourceView
@@ -79,7 +79,7 @@ typedef void(^XQSystemAlertActionBlock)(UIAlertController * _Nonnull alert);
  */
 + (UIAlertController *_Nullable)actionSheetWithTitle:(NSString *_Nullable)title
                                              message:(NSString *_Nullable)message
-                                          contentArr:(NSArray *_Nullable)contentArr
+                                          contentArr:(NSArray <NSString *> *_Nullable)contentArr
                                           cancelText:(NSString *_Nullable)cancelText
                                                   vc:(UIViewController *_Nullable)vc
                                           sourceView:(UIView *_Nullable)sourceView
@@ -93,7 +93,7 @@ typedef void(^XQSystemAlertActionBlock)(UIAlertController * _Nonnull alert);
 
 #pragma mark -- 额外的一些方法
 /**
- 当前是否是弹框
+ 当前是否存在弹框
  
  @return YES是弹框在最前面
  */
