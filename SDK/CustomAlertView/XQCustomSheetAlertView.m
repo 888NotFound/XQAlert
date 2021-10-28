@@ -275,11 +275,9 @@ static NSString *reusing_ = @"XQCustomSheetAlertViewCell";
         _tableView.rowHeight = asCellHeight_;
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        // 智家设置适配
+        // tabieView ios15适配
         if (@available(iOS 15.0, *)) {
             _tableView.sectionHeaderTopPadding = 0;
-        } else {
-            // Fallback on earlier versions
         }
         _tableView.tableFooterView = [UIView new];
     }
