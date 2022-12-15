@@ -31,15 +31,17 @@
         self.messageLab.numberOfLines = 0;
         
         [self.titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.mas_top).offset(10);
-            make.leading.equalTo(self).offset(15);
-            make.trailing.equalTo(self).offset(-15);
+            make.top.equalTo(self).offset(10);
+            make.centerX.equalTo(self);
+            make.leading.lessThanOrEqualTo(self).offset(15);
+            make.trailing.lessThanOrEqualTo(self).offset(-15);
         }];
         
         [self.messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.titleLab.mas_bottom).offset(10);
-            make.left.equalTo(self.titleLab.mas_left);
-            make.right.equalTo(self.titleLab.mas_right);
+            make.centerX.equalTo(self);
+            make.leading.lessThanOrEqualTo(self).offset(15);
+            make.trailing.lessThanOrEqualTo(self).offset(-15);
         }];
         
     }

@@ -92,10 +92,14 @@ static CGFloat asCellHeight_ = 60;
         CGFloat height = [saView_.headerView getViewHeight];
         saView_.headerView.frame = CGRectMake(0, 0, XQ_Screen_Width, height);
         saView_.tableView.tableHeaderView = saView_.headerView;
+        
+//        [saView_.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.width.mas_lessThanOrEqualTo(XQ_Screen_Width);
+//        }];
     }
     
     if (cancelText.length != 0) {
-        saView_.footerView = [XQCustomSheetAlertFooterView new];
+        saView_.footerView = [[XQCustomSheetAlertFooterView alloc] initWithFrame:CGRectMake(0, 0, XQ_Screen_Width + 2, 0)];
         [saView_.footerView.btn setTitle:cancelText forState:UIControlStateNormal];
         [saView_.footerView.btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [saView_ addSubview:saView_.footerView];
@@ -293,7 +297,7 @@ static NSString *reusing_ = @"XQCustomSheetAlertViewCell";
 }
 
 - (void)dealloc {
-    NSLog(@"sheet弹框销毁");
+//    NSLog(@"sheet弹框销毁");
 }
 
 @end

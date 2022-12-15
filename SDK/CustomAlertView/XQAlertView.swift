@@ -18,17 +18,17 @@ public class XQAlertView: UIView, UITextViewDelegate {
     
     /// 显示弹框
     /// 一定会显示一个按钮
-    /// 如果单个按钮, 回调是 callback, 相当于 cancelCallback 是无用的
+    /// 如果单个按钮, 回调是 callback, 相当于 dismissCallback 是无用的
     /// - Parameters:
     ///   - title: 标题
     ///   - message: 副标题
     ///   - leftBtnTitle: 左边按钮标题
     ///   - rightBtnTitle: 右边按钮标题
-    ///   - callback: 点击右边按钮回调
-    ///   - cancelCallback: 点击左边按钮回调
-    @objc public static func show(_ title: String, message: String?, leftBtnTitle: String?, rightBtnTitle: String?, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    ///   - rightCallback: 点击右边按钮回调
+    ///   - leftCallback: 点击左边按钮回调
+    @objc public static func show(_ title: String, message: String?, rightBtnTitle: String? = nil, leftBtnTitle: String? = nil, rightCallback: XQAlertViewCallback? = nil, leftCallback: XQAlertViewCallback? = nil) {
         if let _ = xq_alertView_ {
-            print("已存在 alertView")
+//            print("已存在 alertView")
             return
         }
         
@@ -36,16 +36,16 @@ public class XQAlertView: UIView, UITextViewDelegate {
         
         if let leftBtnTitle = leftBtnTitle, let rightBtnTitle = rightBtnTitle {
             // 两个都存在
-            xq_alertView_?.show(title, message: message, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, callback: callback, cancelCallback: cancelCallback)
+            xq_alertView_?.show(title, message: message, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, callback: rightCallback, dismissCallback: leftCallback)
         }else if let leftBtnTitle = leftBtnTitle {
             // 存在某个
-            xq_alertView_?.show(title, message: message, btnTitle: leftBtnTitle, callback: callback)
+            xq_alertView_?.show(title, message: message, btnTitle: leftBtnTitle, callback: rightCallback)
         }else if let rightBtnTitle = rightBtnTitle {
             // 存在某个
-            xq_alertView_?.show(title, message: message, btnTitle: rightBtnTitle, callback: callback)
+            xq_alertView_?.show(title, message: message, btnTitle: rightBtnTitle, callback: rightCallback)
         }else {
             // 都不存在
-            xq_alertView_?.show(title, message: message, btnTitle: "", callback: callback)
+            xq_alertView_?.show(title, message: message, btnTitle: "", callback: rightCallback)
         }
         
     }
@@ -56,10 +56,10 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - message: 副标题
     ///   - btnTitle: 按钮标题
     ///   - callback: 点击右边按钮回调
-    ///   - cancelCallback: 点击左边按钮回调
+    ///   - dismissCallback: 点击左边按钮回调
     @objc public static func show(_ title: String?, message: String?, btnTitle: String, callback: XQAlertViewCallback? = nil) {
         if let _ = xq_alertView_ {
-            print("已存在 alertView")
+//            print("已存在 alertView")
             return
         }
         
@@ -74,7 +74,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - messageLinks: 内容中要显示为可点击链接
     ///   - messageLinkTextAttributes: UITextView.linkTextAttributes 属性,  就是链接富文本的属性. 例如颜色这些
     ///   - textViewDelegate: UITextView 的 代理, 就是监听点击富文本 的
-    @objc public static func show(_ title: String, message: String, messageLinks: [String: String], messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String?, rightBtnTitle: String?, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    @objc public static func show(_ title: String, message: String, messageLinks: [String: String], messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String?, rightBtnTitle: String?, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, dismissCallback: XQAlertViewCallback? = nil) {
         
         let attributedString = NSMutableAttributedString.init(string: message)
         
@@ -103,7 +103,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
             }
         }
         
-        self.show(title, message: attributedString, messageLinkTextAttributes: messageLinkTextAttributes, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, textViewDelegate: textViewDelegate, callback: callback, cancelCallback: cancelCallback)
+        self.show(title, message: attributedString, messageLinkTextAttributes: messageLinkTextAttributes, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, textViewDelegate: textViewDelegate, callback: callback, dismissCallback: dismissCallback)
     }
     
     /// 显示弹框, 富文本
@@ -111,9 +111,9 @@ public class XQAlertView: UIView, UITextViewDelegate {
     ///   - message: 富文本内容
     ///   - messageLinkTextAttributes: UITextView.linkTextAttributes 属性,  就是链接富文本的属性. 例如颜色这些
     ///   - textViewDelegate: UITextView 的 代理, 就是监听点击富文本 的
-    @objc public static func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String?, rightBtnTitle: String?, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    @objc public static func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:], leftBtnTitle: String?, rightBtnTitle: String?, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, dismissCallback: XQAlertViewCallback? = nil) {
         self.createAlertView()
-        xq_alertView_?.show(title, message: message, messageLinkTextAttributes: messageLinkTextAttributes, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, textViewDelegate: textViewDelegate, callback: callback, cancelCallback: cancelCallback)
+        xq_alertView_?.show(title, message: message, messageLinkTextAttributes: messageLinkTextAttributes, leftBtnTitle: leftBtnTitle, rightBtnTitle: rightBtnTitle, textViewDelegate: textViewDelegate, callback: callback, dismissCallback: dismissCallback)
     }
     
     /// 隐藏弹框
@@ -121,14 +121,14 @@ public class XQAlertView: UIView, UITextViewDelegate {
         if let xq_alertView = xq_alertView_ {
             xq_alertView.hide()
         }else {
-            print("不存在 alertView")
+//            print("不存在 alertView")
         }
     }
     
     /// 创建 alert, 并且添加到 window 上
     private static func createAlertView() {
         // 添加到window
-//        let window = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window
+        //        let window = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.window
         if let window = self.getWindow() {
             xq_alertView_ = XQAlertView()
             window.addSubview(xq_alertView_!)
@@ -146,11 +146,10 @@ public class XQAlertView: UIView, UITextViewDelegate {
     }
     
     
-    public typealias XQAlertViewCallback = (_ index: UInt) -> ()
-    public typealias XQAlertViewCancelCallback = () -> ()
+    public typealias XQAlertViewCallback = () -> ()
     
     private var callback: XQAlertViewCallback?
-    private var cancelCallback: XQAlertViewCancelCallback?
+    private var dismissCallback: XQAlertViewCallback?
     
     /// 黑色背景
     private var backBtn = UIButton()
@@ -306,8 +305,8 @@ public class XQAlertView: UIView, UITextViewDelegate {
         
         
         // 测试点击
-//        self.titleLab.isUserInteractionEnabled = true
-//        self.titleLab.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(respondsToTap(_:))))
+        //        self.titleLab.isUserInteractionEnabled = true
+        //        self.titleLab.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(respondsToTap(_:))))
         
     }
     
@@ -317,7 +316,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-//        print("大小: ", #function, self.frame, self.contentScrollView.contentSize, self.contentScrollView.frame, self.messageView.frame, self.leftBtn.frame)
+        //        print("大小: ", #function, self.frame, self.contentScrollView.contentSize, self.contentScrollView.frame, self.messageView.frame, self.leftBtn.frame)
         
         // 算 messageView 会比较晚，导致 contentView 高度不对
         // 所以直接拿 self 来算
@@ -335,7 +334,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     
     public override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
-//        print("大小: ", #function, self.frame, self.contentScrollView.contentSize, self.contentScrollView.frame, self.messageView.frame, self.leftBtn.frame)
+        //        print("大小: ", #function, self.frame, self.contentScrollView.contentSize, self.contentScrollView.frame, self.messageView.frame, self.leftBtn.frame)
         
         // 0 表示还没布局
         if self.contentScrollView.contentSize.height == 0 {
@@ -364,14 +363,14 @@ public class XQAlertView: UIView, UITextViewDelegate {
                 make?.width.equalTo()(self.mas_width)?.multipliedBy()(0.8)
                 // 不让超出屏幕高度
                 make?.height.mas_equalTo()(self.contentScrollView.contentSize.height)
-//                make?.height.mas_lessThanOrEqualTo()(maxHeight)
+                //                make?.height.mas_lessThanOrEqualTo()(maxHeight)
             }
         }
         
     }
     
     /// 显示两个按钮
-    private func show(_ title: String?, message: String?, leftBtnTitle: String = "", rightBtnTitle: String = "", callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    private func show(_ title: String?, message: String?, leftBtnTitle: String = "", rightBtnTitle: String = "", callback: XQAlertViewCallback? = nil, dismissCallback: XQAlertViewCallback? = nil) {
         
         self.titleLab.text = title
         self.messageLab.text = message
@@ -380,13 +379,13 @@ public class XQAlertView: UIView, UITextViewDelegate {
         self.rightBtn.setTitle(rightBtnTitle, for: .normal)
         
         self.callback = callback
-        self.cancelCallback = cancelCallback
+        self.dismissCallback = dismissCallback
         
         self.xq_show()
     }
     
     /// 显示单个按钮
-    private func show(_ title: String?, message: String?, btnTitle: String = "", callback: XQAlertViewCallback? = nil) {
+    private func show(_ title: String?, message: String?, btnTitle: String = "", callback: XQAlertViewCallback? = nil, dismissCallback: XQAlertViewCallback? = nil) {
         
         self.titleLab.text = title
         self.messageLab.text = message
@@ -403,13 +402,13 @@ public class XQAlertView: UIView, UITextViewDelegate {
         
         
         self.callback = callback
-        self.cancelCallback = nil
+        self.dismissCallback = dismissCallback
         
         self.xq_show()
     }
     
     /// 显示富文本弹框
-    private func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:],  leftBtnTitle: String?, rightBtnTitle: String?, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, cancelCallback: XQAlertViewCancelCallback? = nil) {
+    private func show(_ title: String, message: NSAttributedString, messageLinkTextAttributes: [NSAttributedString.Key : Any] = [:],  leftBtnTitle: String?, rightBtnTitle: String?, textViewDelegate: UITextViewDelegate? = nil, callback: XQAlertViewCallback? = nil, dismissCallback: XQAlertViewCallback? = nil) {
         
         self.titleLab.text = title
         self.messageTV.attributedText = message
@@ -457,7 +456,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
         
         
         self.callback = callback
-        self.cancelCallback = cancelCallback
+        self.dismissCallback = dismissCallback
         
         self.xq_show()
     }
@@ -489,7 +488,7 @@ public class XQAlertView: UIView, UITextViewDelegate {
     private func calculationMessageTVHeight(_ width: CGFloat) -> CGFloat {
         let drawingOptions = NSStringDrawingOptions(rawValue: NSStringDrawingOptions.usesLineFragmentOrigin.rawValue | NSStringDrawingOptions.usesFontLeading.rawValue)
         let size = self.messageTV.attributedText.boundingRect(with: CGSize.init(width: width, height: CGFloat(MAXFLOAT)), options: drawingOptions, context: nil)
-//        print("高度: ", #function, size.height)
+        //        print("高度: ", #function, size.height)
         return size.height
     }
     
@@ -504,12 +503,12 @@ public class XQAlertView: UIView, UITextViewDelegate {
     }
     
     @objc private func respondsToLeft(_ btn: UIButton) {
-        self.cancelCallback?()
+        self.dismissCallback?()
         self.hide()
     }
     
     @objc private func respondsToRight(_ btn: UIButton) {
-        self.callback?(0)
+        self.callback?()
         self.hide()
     }
     
@@ -520,12 +519,12 @@ public class XQAlertView: UIView, UITextViewDelegate {
     // MARK: - UITextViewDelegate
     
     public func textView(_ textView: UITextView, shouldInteractWith url: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        print("点击了: ", #function, url, characterRange)
+//        print("点击了: ", #function, url, characterRange)
         return true
     }
     
     public func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        print("点击了: ", #function, textAttachment, characterRange)
+//        print("点击了: ", #function, textAttachment, characterRange)
         return true
     }
     
